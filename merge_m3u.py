@@ -4,11 +4,12 @@ import os
 import re # Kategori temizleme işlemi için re modülünü ekledik
 from datetime import datetime
 
+# --- YENİ DEĞİŞİKLİK: Hatalı URL düzeltildi ---
 # URL'ler öncelik sırasına göre tanımlanmıştır.
 # İlk URL'nin içeriği, birleştirilmiş dosyanın en başına eklenecektir.
 SOURCE_URLS = [
     "https://raw.githubusercontent.com/ahmet21ahmet/Filmdizi/main/filmler.m3u",
-    "https://raw.githubusercontent.com/GitLatte/patr_n/refs/heads/site/lists/power-sinema.m3u"
+    "https://raw.githubusercontent.com/GitLatte/patr0n/refs/heads/site/lists/power-sinema.m3u" # "patr_n" -> "patr0n" olarak düzeltildi
 ]
 
 # Çıktı olarak oluşturulacak dosyanın adı
@@ -42,16 +43,12 @@ def parse_m3u(content):
             if i + 1 < len(lines) and lines[i+1].strip():
                 info_line = line
                 
-                # --- YENİ DEĞİŞİKLİK: Kategori bilgisini (group-title) temizle ---
-                # "group-title" etiketini ve içeriğini satırdan kaldırır.
+                # Kategori bilgisini (group-title) temizle
                 cleaned_info_line = re.sub(r'group-title=".*?"', '', info_line).strip()
-                # Kaldırma işleminden sonra oluşabilecek çift boşlukları tek boşluğa indirir.
                 cleaned_info_line = re.sub(r'\s\s+', ' ', cleaned_info_line)
-                # Film adından önce gelebilecek boşluklu virgülü düzeltir ( ör: " ,Film Adı" -> ",Film Adı")
                 cleaned_info_line = re.sub(r'\s+,', ',', cleaned_info_line)
 
                 url_line = lines[i+1].strip()
-                # Listeye bilgi satırının temizlenmiş halini ekliyoruz
                 entries.append((cleaned_info_line, url_line))
                 i += 2
             else:
@@ -83,7 +80,6 @@ def main():
         content = fetch_playlist(url)
         
         if content:
-            # parse_m3u fonksiyonu artık kategorileri temizlenmiş girişler döndürecek
             entries = parse_m3u(content)
             print(f"  -> Bu listede {len(entries)} giriş bulundu.")
             
