@@ -45,19 +45,8 @@ jobs:
       - name: Run All Scraper Scripts
         continue-on-error: true
         run: |
-          python "${{ github.workspace }}/m3u/AmazonPrime.py"
-          python "${{ github.workspace }}/m3u/Blutv.py"
-          python "${{ github.workspace }}/m3u/Disney.py"
-          python "${{ github.workspace }}/m3u/Exxen.py"
-          python "${{ github.workspace }}/m3u/Gain.py"
-          python "${{ github.workspace }}/m3u/HBOMax.py"
-          python "${{ github.workspace }}/m3u/Hulu.py"
-          python "${{ github.workspace }}/m3u/Netflix.py"
-          python "${{ github.workspace }}/m3u/Paramount.py"
-          python "${{ github.workspace }}/m3u/TODTV.py"
-          python "${{ github.workspace }}/m3u/Tabii.py"
-          python "${{ github.workspace }}/m3u/UnutulmazDiziler.py"
-
+          python "${{ github.workspace }}/M3u/Exxen.py"
+        
       # 5. Adım: Değişiklikleri Depoya İşle (Commit and Push)
       - name: Commit and push if there are changes
         run: |
@@ -70,7 +59,7 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
           # m3u klasöründeki tüm değişiklikleri Git'e ekle
-          git add m3u/
+          git add M3u/
 
           # Eğer işlenecek bir değişiklik varsa, commit at ve push'la
           if ! git diff --staged --quiet; then
