@@ -3,53 +3,45 @@ name: M3U Listesini Otomatik Güncelle
 
 # Bu iş akışını tetikleyecek olaylar
 on:
-  # Her 6 saatte bir otomatik olarak çalıştır
   schedule:
     - cron: '0 */6 * * *'
-  
-  # Manuel olarak da çalıştırabilmek için
   workflow_dispatch:
 
 jobs:
   build:
-    # İşin çalışacağı sanal makine
     runs-on: ubuntu-latest
 
+    # --- YENİ EKLENEN BÖLÜM ---
+    # Bu satırlar, iş akışına depoya yazma izni verir.
+    permissions:
+      contents: write
+    # --------------------------
+
     steps:
-      # 1. Adım: Repodaki kodları sanal makineye indir
       - name: Repoyu Klonla
         uses: actions/checkout@v3
 
-      # 2. Adım: Python ortamını kur
       - name: Python 3.9 Kurulumu
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      # 3. Adım: Gerekli Python kütüphanelerini yükle
       - name: Gerekli Kütüphaneleri Yükle
         run: |
           python -m pip install --upgrade pip
           pip install requests
 
-      # 4. Adım: M3U dönüştürücü betiğini çalıştır
       - name: M3U Dönüştürücü Betiğini Çalıştır
         run: python m3u_donusturucu.py
 
-      # 5. Adım: Değişiklikleri repoya commit'le ve push'la
       - name: Değişiklikleri Repoya Yükle
         run: |
-          # Git ayarlarını yap
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Değişiklik var mı kontrol et
           if [[ -n $(git status -s) ]]; then
-            # Değişen dosyaları ekle
             git add son_liste.m3u
-            # Commit oluştur
             git commit -m "M3U listesi otomatik olarak güncellendi"
-            # Değişiklikleri ana dala (main/master) push'la
             git push
           else
             echo "Herhangi bir değişiklik bulunamadı."
