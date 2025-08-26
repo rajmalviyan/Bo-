@@ -1,6 +1,9 @@
 # Gerekli kütüphaneleri içe aktarıyoruz
 import requests
 import urllib.parse
+import re
+
+# --- AYARLAR ---
 
 # Kaynak M3U listesinin URL'si
 SOURCE_URL = "https://raw.githubusercontent.com/zerodayip/m3u8file/main/setfilmizle.m3u"
@@ -11,10 +14,16 @@ OUTPUT_FILE = "son_liste.m3u"
 # Eklenecek olan Referer URL'si
 REFERER = "https://vctplay.site/"
 
-def convert_line(line):
+# Eklenecek olan User-Agent bilgisi
+USER_AGENT = "Mozilla/5.0 (Linux; Android 14; 23117RA68G Build/UP1A.231005.007) AppleWebKit/537.36 (KHTML, like Gecko) Hnlcw/4.0 Chrome/139.0.7258.94 Mobile Safari/536"
+
+# Tüm kanallar için ayarlanacak yeni grup başlığı
+NEW_GROUP_TITLE = "Filmler"
+
+
+def process_url_and_get_headers(line):
     """
-    Verilen URL satırını istenen formata dönüştürür.
-    URL'den önce #EXTVLCOPT satırını ekler.
+    Verilen URL satırını dönüştürür ve başlıklarla birlikte tam bir blok olarak döndürür.
     """
     # URL'nin proxy yapısına uyup uymadığını kontrol et
     if "zeroipday-zeroipday.hf.space/proxy/setfilmizle/fastplay?url=" in line:
@@ -24,7 +33,7 @@ def convert_line(line):
             query_params = urllib.parse.parse_qs(parsed_url.query)
             
             if 'url' not in query_params or not query_params['url']:
-                return line
+                return line # Dönüşüm yapılamıyorsa orijinal satırı döndür
             
             original_video_url = query_params['url'][0]
 
@@ -39,11 +48,12 @@ def convert_line(line):
                     # Yeni URL'yi dinamik video kimliği ile oluştur
                     new_url = f"{base_url}/manifests/{video_id}/master.txt"
                     
-                    # Referer bilgisini #EXTVLCOPT formatında oluştur
-                    ext_vlc_opt = f"#EXTVLCOPT:http-referrer={REFERER}"
+                    # Gerekli başlıkları oluştur
+                    ext_referrer = f"#EXTVLCOPT:http-referrer={REFERER}"
+                    ext_user_agent = f"#EXTVLCOPT:http-user-agent={USER_AGENT}"
                     
-                    # İki satırı birleştirerek döndür
-                    return f"{ext_vlc_opt}\n{new_url}"
+                    # Başlıkları ve yeni URL'yi birleştirerek tam bir blok oluştur
+                    return f"{ext_referrer}\n{ext_user_agent}\n{new_url}"
             
             # Eğer format uygun değilse, dönüşüm yapma
             return line
@@ -72,18 +82,29 @@ def process_m3u():
     new_m3u_content = []
 
     for line in lines:
-        # Eğer satır bir URL ise (genellikle http ile başlar ve # ile başlamaz)
-        if line.strip() and not line.strip().startswith("#"):
-            converted_line = convert_line(line.strip())
-            new_m3u_content.append(converted_line)
+        # #EXTINF satırını işle
+        if line.strip().startswith("#EXTINF"):
+            # Regex kullanarak group-title="... " kısmını yenisiyle değiştir
+            modified_line = re.sub(
+                r'group-title="[^"]*"', 
+                f'group-title="{NEW_GROUP_TITLE}"', 
+                line
+            )
+            new_m3u_content.append(modified_line)
+        
+        # URL satırını işle
+        elif line.strip() and not line.strip().startswith("#"):
+            # URL'yi dönüştür ve başlıkları ekle
+            converted_block = process_url_and_get_headers(line.strip())
+            new_m3u_content.append(converted_block)
+        
+        # Diğer satırları (#EXTM3U gibi) olduğu gibi ekle
         else:
-            # Eğer #EXTINF gibi bir metadata satırı ise, olduğu gibi ekle
             new_m3u_content.append(line)
             
     try:
         # Yeni içeriği dosyaya yaz
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            # listeyi \n ile birleştirerek dosyaya yaz
             f.write("\n".join(new_m3u_content))
         print(f"Dönüştürme tamamlandı. Liste '{OUTPUT_FILE}' dosyasına kaydedildi.")
     except IOError as e:
