@@ -8,13 +8,13 @@ SOURCE_URL = "https://raw.githubusercontent.com/zerodayip/m3u8file/main/setfilmi
 # Dönüştürülmüş listenin kaydedileceği dosya adı
 OUTPUT_FILE = "son_liste.m3u"
 
-# Eklenecek olan Referer bilgisi
+# Eklenecek olan Referer URL'si
 REFERER = "https://vctplay.site/"
 
-def convert_url(line):
+def convert_line(line):
     """
     Verilen URL satırını istenen formata dönüştürür.
-    URL'nin sonundaki video kimliğini dinamik olarak alır.
+    URL'den önce #EXTVLCOPT satırını ekler.
     """
     # URL'nin proxy yapısına uyup uymadığını kontrol et
     if "zeroipday-zeroipday.hf.space/proxy/setfilmizle/fastplay?url=" in line:
@@ -30,26 +30,27 @@ def convert_url(line):
 
             # URL'de '/video/' kısmı var mı diye kontrol et
             if '/video/' in original_video_url:
-                # URL'yi '/video/' kısmından ikiye böl
                 parts = original_video_url.rsplit('/video/', 1)
                 
-                # Eğer bölme başarılıysa (2 parça oluştuysa)
                 if len(parts) == 2:
-                    base_url = parts[0]  # -> https://vctplay.site
-                    video_id = parts[1]  # -> vo8dtePO3k5c
+                    base_url = parts[0]
+                    video_id = parts[1]
                     
                     # Yeni URL'yi dinamik video kimliği ile oluştur
                     new_url = f"{base_url}/manifests/{video_id}/master.txt"
                     
-                    # Sonuna Referer bilgisini ekle
-                    return f"{new_url}|Referer={REFERER}"
+                    # Referer bilgisini #EXTVLCOPT formatında oluştur
+                    ext_vlc_opt = f"#EXTVLCOPT:http-referrer={REFERER}"
+                    
+                    # İki satırı birleştirerek döndür
+                    return f"{ext_vlc_opt}\n{new_url}"
             
-            # Eğer '/video/' içermiyorsa veya format uygun değilse, dönüşüm yapma
+            # Eğer format uygun değilse, dönüşüm yapma
             return line
 
         except Exception as e:
             print(f"URL dönüştürülürken hata oluştu: {line} -> Hata: {e}")
-            return line # Hata durumunda orijinal satırı koru
+            return line
     
     # Eğer proxy URL'si değilse, satırı olduğu gibi geri döndür
     return line
@@ -71,14 +72,18 @@ def process_m3u():
     new_m3u_content = []
 
     for line in lines:
+        # Eğer satır bir URL ise (genellikle http ile başlar ve # ile başlamaz)
         if line.strip() and not line.strip().startswith("#"):
-            converted_line = convert_url(line.strip())
+            converted_line = convert_line(line.strip())
             new_m3u_content.append(converted_line)
         else:
+            # Eğer #EXTINF gibi bir metadata satırı ise, olduğu gibi ekle
             new_m3u_content.append(line)
             
     try:
+        # Yeni içeriği dosyaya yaz
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+            # listeyi \n ile birleştirerek dosyaya yaz
             f.write("\n".join(new_m3u_content))
         print(f"Dönüştürme tamamlandı. Liste '{OUTPUT_FILE}' dosyasına kaydedildi.")
     except IOError as e:
