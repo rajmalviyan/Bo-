@@ -1,5 +1,5 @@
 # İş akışının adı
-name: M3U Listesini Otomatik Güncelle
+name: Set film Otomatik Güncelle
 
 # Bu iş akışını tetikleyecek olaylar
 on:
