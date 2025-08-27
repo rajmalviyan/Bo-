@@ -1,11 +1,9 @@
 import requests
 import json
+import sys
 
 # --- AYARLAR ---
-# API URL'sini isteğiniz üzerine güncelledim.
 API_URL = "https://c.appbaqend.com/show_valued"
-
-# Çıktı olarak oluşturulacak dosyanın adı
 OUTPUT_FILE = "playlist.m3u"
 
 # M3U dosyasının başlık formatı
@@ -16,6 +14,7 @@ M3U_TEMPLATE = '#EXTINF:-1 tvg-logo="" group-title="{group}",{name}\n{url}\n'
 def fetch_and_create_playlist():
     """
     API'den yayın verilerini çeker ve gruplandırılmış bir M3U dosyası oluşturur.
+    Hata durumunda veya liste boş geldiğinde bile dosyayı oluşturur.
     """
     print("API'den yayın listesi çekiliyor...")
     try:
@@ -28,13 +27,16 @@ def fetch_and_create_playlist():
         response.raise_for_status()
         data = response.json()
         
-        if 'channels' not in data or not data['channels']:
-            print("API yanıtında 'channels' listesi bulunamadı veya liste boş.")
-            return
+        # 'channels' anahtarı olmasa bile hata vermemesi için .get() kullanıyoruz.
+        events = data.get('channels', [])
 
-        events = data['channels']
-        print(f"Toplam {len(events)} yayın bulundu. M3U dosyası oluşturuluyor...")
-        
+        if not events:
+            print("API'den yayın bulunamadı veya 'channels' listesi boş. Boş bir playlist oluşturuluyor.")
+        else:
+            print(f"Toplam {len(events)} yayın bulundu. M3U dosyası oluşturuluyor...")
+
+        # --- DÜZELTME BURADA ---
+        # Dosya yazma işlemi artık her durumda (liste boş olsa bile) çalışacak.
         with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
             f.write(M3U_HEADER)
             
@@ -50,12 +52,21 @@ def fetch_and_create_playlist():
                         url=stream_url
                     ))
                     
-        print(f"'{OUTPUT_FILE}' dosyası başarıyla güncellendi.")
+        print(f"'{OUTPUT_FILE}' dosyası başarıyla oluşturuldu/güncellendi.")
 
     except requests.exceptions.RequestException as e:
-        print(f"API'ye bağlanırken bir hata oluştu: {e}")
+        print(f"HATA: API'ye bağlanırken bir sorun oluştu: {e}")
+        # Hata durumunda da boş bir dosya oluşturarak workflow'un patlamasını engelle
+        with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+            f.write(M3U_HEADER)
+        print("İşleme devam etmek için boş bir playlist.m3u oluşturuldu.")
+    
     except Exception as e:
-        print(f"Beklenmedik bir hata oluştu: {e}")
+        print(f"HATA: Beklenmedik bir sorun oluştu: {e}")
+        # Hata durumunda da boş bir dosya oluştur
+        with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+            f.write(M3U_HEADER)
+        print("İşleme devam etmek için boş bir playlist.m3u oluşturuldu.")
 
 
 if __name__ == "__main__":
