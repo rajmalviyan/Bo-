@@ -9,6 +9,8 @@ import urllib.parse
 SOURCE_URL = "https://raw.githubusercontent.com/zerodayip/m3u8file/main/rec%2Frecfilm.m3u"
 # Çıktı dosyasının adı
 OUTPUT_FILE = "recfilm_processed.m3u"
+# Kullanılacak olan sabit User-Agent değeri
+USER_AGENT = "okhttp/4.12.0"
 
 def process_m3u_playlist():
     """
@@ -26,7 +28,7 @@ def process_m3u_playlist():
 
     lines = content.splitlines()
     processed_lines = []
-    
+
     # M3U dosyasının başlığını kontrol et ve ekle
     if lines and lines[0].strip() == "#EXTM3U":
         processed_lines.append(lines[0].strip())
@@ -36,48 +38,49 @@ def process_m3u_playlist():
     i = 1
     while i < len(lines):
         line = lines[i].strip()
-        
+
         # Eğer satır bir kanal bilgisi içeriyorsa (#EXTINF)
         if line.startswith("#EXTINF"):
             extinf_line = line
-            
+
             # Sonraki satırın URL olması beklenir
             i += 1
             if i < len(lines):
                 url_line = lines[i].strip()
-                
+
                 # URL'nin proxy formatında olup olmadığını kontrol et
                 if "zeroipday-zeroipday.hf.space/proxy/m3u" in url_line:
                     try:
                         # Proxy URL'sini parçalarına ayır
                         parsed_proxy_url = urllib.parse.urlparse(url_line)
                         query_params = urllib.parse.parse_qs(parsed_proxy_url.query)
-                        
-                        # Gerekli parametreleri (url, referer, user-agent) al
+
+                        # Gerekli parametreleri (url, referer) al
                         actual_url_encoded = query_params.get('url', [None])[0]
                         referrer = query_params.get('h_Referer', [None])[0]
-                        user_agent = query_params.get('h_User-Agent', [None])[0]
+                        # User-Agent'ı URL'den almak yerine sabit değeri kullanacağız.
 
                         if actual_url_encoded:
                             # Asıl medya URL'sini decode et
                             actual_url = urllib.parse.unquote(actual_url_encoded)
-                            
+
                             # Önce kanal bilgisini ekle
                             processed_lines.append(extinf_line)
-                            
-                            # Referrer ve User-Agent bilgilerini #EXTVLCOPT olarak ekle
+
+                            # Referrer ve sabit User-Agent bilgilerini #EXTVLCOPT olarak ekle
                             if referrer:
                                 processed_lines.append(f'#EXTVLCOPT:http-referrer={referrer}')
-                            if user_agent:
-                                processed_lines.append(f'#EXTVLCOPT:http-user-agent={user_agent}')
-                                
+                            
+                            # Sabit User-Agent'ı ekle
+                            processed_lines.append(f'#EXTVLCOPT:http-user-agent={USER_AGENT}')
+
                             # Son olarak temizlenmiş medya URL'sini ekle
                             processed_lines.append(actual_url)
                         else:
                             # 'url' parametresi bulunamazsa, orijinal satırları koru
                             processed_lines.append(extinf_line)
                             processed_lines.append(url_line)
-                            
+
                     except (KeyError, IndexError, TypeError):
                         # URL parse edilirken bir hata olursa orijinal satırları koru
                         print(f"URL parse edilemedi, orijinal hali korunuyor: {url_line}")
