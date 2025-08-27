@@ -11,6 +11,8 @@ SOURCE_URL = "https://raw.githubusercontent.com/zerodayip/m3u8file/main/rec%2Fre
 OUTPUT_FILE = "recfilm_processed.m3u"
 # Kullanılacak olan sabit User-Agent değeri
 USER_AGENT = "okhttp/4.12.0"
+# Kullanılacak olan sabit Referrer değeri
+REFERRER = "https://twitter.com/"
 
 def process_m3u_playlist():
     """
@@ -55,11 +57,9 @@ def process_m3u_playlist():
                         parsed_proxy_url = urllib.parse.urlparse(url_line)
                         query_params = urllib.parse.parse_qs(parsed_proxy_url.query)
 
-                        # Gerekli parametreleri (url, referer) al
+                        # Sadece 'url' parametresini al
                         actual_url_encoded = query_params.get('url', [None])[0]
-                        referrer = query_params.get('h_Referer', [None])[0]
-                        # User-Agent'ı URL'den almak yerine sabit değeri kullanacağız.
-
+                        
                         if actual_url_encoded:
                             # Asıl medya URL'sini decode et
                             actual_url = urllib.parse.unquote(actual_url_encoded)
@@ -67,11 +67,8 @@ def process_m3u_playlist():
                             # Önce kanal bilgisini ekle
                             processed_lines.append(extinf_line)
 
-                            # Referrer ve sabit User-Agent bilgilerini #EXTVLCOPT olarak ekle
-                            if referrer:
-                                processed_lines.append(f'#EXTVLCOPT:http-referrer={referrer}')
-                            
-                            # Sabit User-Agent'ı ekle
+                            # Sabit Referrer ve User-Agent bilgilerini #EXTVLCOPT olarak ekle
+                            processed_lines.append(f'#EXTVLCOPT:http-referrer={REFERRER}')
                             processed_lines.append(f'#EXTVLCOPT:http-user-agent={USER_AGENT}')
 
                             # Son olarak temizlenmiş medya URL'sini ekle
