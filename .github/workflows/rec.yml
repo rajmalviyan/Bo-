@@ -2,7 +2,7 @@
 # .github/workflows/update_m3u.yml
 # Bu GitHub Actions workflow'u, M3U listesini periyodik olarak günceller.
 
-name: M3U Listesini Otomatik Güncelle
+name: rec Listesini Otomatik Güncelle
 
 on:
   # Bu workflow'u Actions sekmesinden manuel olarak çalıştırmanıza olanak tanır
