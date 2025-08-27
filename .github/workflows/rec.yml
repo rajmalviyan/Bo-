@@ -1,7 +1,8 @@
+
 # .github/workflows/update_m3u.yml
 # Bu GitHub Actions workflow'u, M3U listesini periyodik olarak günceller.
 
-name: rec Otomatik Güncelle
+name: M3U Listesini Otomatik Güncelle
 
 on:
   # Bu workflow'u Actions sekmesinden manuel olarak çalıştırmanıza olanak tanır
@@ -16,6 +17,11 @@ jobs:
   update-playlist:
     # İşlemin çalışacağı sanal makineyi belirtir
     runs-on: ubuntu-latest
+
+    # YENİ EKLENEN KISIM: İş akışına repoya yazma izni verir
+    # Bu, 'git-auto-commit-action' adımının çalışabilmesi için gereklidir.
+    permissions:
+      contents: write
 
     steps:
       # Adım 1: Repoyu sanal makineye klonlar
