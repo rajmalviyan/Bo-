@@ -1,0 +1,61 @@
+# İş akışının adı
+name: gom Güncelle ve Push Et
+
+# Bu iş akışının ne zaman tetikleneceği
+on:
+  # 1. Manuel olarak GitHub Actions sekmesinden çalıştırma imkanı
+  workflow_dispatch:
+
+  # 2. Zamanlanmış görev: Her gün 00:00'da (UTC) otomatik çalışır
+  # Bu satırların başındaki '#' işaretini kaldırarak aktif edebilirsiniz.
+  # schedule:
+  #   - cron: '0 0 * * *'
+
+# İş akışında çalıştırılacak işler
+jobs:
+  update-and-push:
+    # İşin çalışacağı sanal makine
+    runs-on: ubuntu-latest
+
+    # !!! ÖNEMLİ: İş akışının repoya yazma izni olması için bu bölüm gerekli.
+    permissions:
+      contents: write
+
+    # İşin adımları
+    steps:
+      # 1. Adım: Repodaki kodları sanal makineye kopyalar
+      - name: Repoyu Kopyala
+        uses: actions/checkout@v4
+
+      # 2. Adım: Python ortamını kurar
+      - name: Python'u Kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # 3. Adım: Gerekli Python kütüphanelerini yükler
+      - name: Bağımlılıkları Yükle
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      # 4. Adım: M3U listesini işleyen Python betiğini çalıştırır
+      - name: M3U Linklerini Çöz
+        run: python m3u_islemci.py
+
+      # 5. Adım: Değişiklikleri repoya commit edip push eder
+      - name: Değişiklikleri Push Et
+        run: |
+          # Git için kullanıcı adı ve e-posta ayarla
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Oluşturulan yeni dosyayı Git'e ekle
+          git add dizigom_cozulmus.m3u
+          
+          # Eğer değişiklik varsa commit at
+          # "git diff --quiet" komutu değişiklik yoksa işlemi sonlandırır
+          git diff --quiet && git diff --staged --quiet || git commit -m "M3U listesi otomatik olarak güncellendi"
+          
+          # Değişiklikleri ana dala (main) push et
+          git push
