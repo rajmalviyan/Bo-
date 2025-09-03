@@ -7,7 +7,7 @@ from datetime import datetime
 # İlk URL'nin içeriği, birleştirilmiş dosyanın en başına eklenecektir.
 SOURCE_URLS = [
     "https://raw.githubusercontent.com/ahmet21ahmet/Filmdizi/main/filmler.m3u",
-    "https://raw.githubusercontent.com/GitLatte/patr0n/refs/heads/site/lists/power-sinema.m3u"
+    "https://raw.githubusercontent.com/ahmet21ahmet/Bo-/main/movies.m3u"
 ]
 
 # Çıktı olarak oluşturulacak dosyanın adı
