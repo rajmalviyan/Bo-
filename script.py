@@ -33,7 +33,7 @@ def runServers():
 
 def server1(i, name):
     print("Running Server 1")
-    url = f"https://thedaddy.to/embed/{name}.php"
+    url = f"https://adult-tv-channels.com/tv/{name}.php"
     headers = {
         "User-Agent": "Mozilla/5.0",
         "Referer": "https://adult-tv-channels.com",
