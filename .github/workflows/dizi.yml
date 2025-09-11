@@ -1,0 +1,56 @@
+# Bu GitHub Actions iş akışı, cizgivedizi.com scraper betiğini çalıştırır
+# ve sonuçları bir 'artifact' olarak kaydeder.
+
+name: Run CizgiVeDizi Scraper
+
+# İş akışının ne zaman tetikleneceğini belirler
+on:
+  # 1. main branch'ine her push yapıldığında çalışır
+  push:
+    branches:
+      - main
+      - master
+
+  # 2. GitHub arayüzünden manuel olarak tetiklemeye izin verir
+  workflow_dispatch:
+
+# İş akışının sahip olacağı izinleri tanımlar.
+# actions: write -> actions/upload-artifact'in çıktıları kaydetmesi için gereklidir.
+permissions:
+  actions: write
+  contents: read # Kodu okumak için varsayılan izin
+
+jobs:
+  scrape-and-archive:
+    # İşin çalışacağı sanal makineyi belirler
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Adım: Repository'deki kodu sanal makineye kopyalar
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Adım: Python ortamını kurar (örneğin 3.11 sürümü)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Adım: Gerekli Python kütüphanelerini yükler
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      # 4. Adım: Scraper betiğini çalıştırır
+      # Betik, verileri varsayılan olarak 'output' klasörüne yazacak
+      - name: Run the scraper script
+        run: python cizgivedizi_merged_all.py dump-all
+
+      # 5. Adım: Oluşturulan 'output' klasörünü bir artifact olarak yükler
+      # Bu sayede JSON dosyalarını daha sonra indirebilirsiniz
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cizgivedizi-data
+          path: output/
