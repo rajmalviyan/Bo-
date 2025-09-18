@@ -1,5 +1,5 @@
 # ÇizgiVeDizi Arşivi
-**Son Güncelleme:** 2025-09-18 06:14:17 (UTC)
+**Son Güncelleme:** 2025-09-18 12:17:18 (UTC)
 ---
 ## İstatistikler
 - **Toplam Dizi Bulundu:** 0
