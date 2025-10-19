@@ -22,7 +22,8 @@ def runServers():
         print(f"{i+1}.{channels_2[i]}")
         server2(hashcode_2[i], channels_2[i])
         
-with open("docs/combined_playlist.m3u", "a", encoding='utf-8-sig') as file:
+    try:    
+        with open("docs/combined_playlist.m3u", "a", encoding='utf-8-sig') as file:
             file.write(f'#EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="" tvg-logo="{CHANNEL_LOGO}" group-title="Adult 2",okLiveTV\n')
             file.write(f"https://oklivetv.com/xplay/m3u8/N1VQM0VBOUNWbVZwQzZOZUpSR3JVZz09.m3u8\n") 
     except Exception as e:
