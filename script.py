@@ -157,6 +157,10 @@ hashCode = [
     "V2D4lPbasF",
     "t6VXUhiBYF",
     "JiA1DWNWJc",
+    "RMdBtgPkAZ",
+    "D9QT1n9SFy",
+    "HdcCGPssEy",
+    "qzVwPIpnOJ",
 ]
 
 channels = [
@@ -189,6 +193,10 @@ channels = [
     "CentoXCento",
     "Barely-Legal-TV",
     "Venus",
+    "True-Amateurs",
+    "SexPrive",
+    "HustlerHD",
+    "HotPleasure",
 ]
 
 hashcode_3 = [
@@ -237,6 +245,10 @@ hashcode_3 = [
     "V2D4lPbasF",
     "JiA1DWNWJc",
     "jK2r6H1Dlj",
+    "RMdBtgPkAZ",
+    "D9QT1n9SFy",
+    "HdcCGPssEy",
+    "qzVwPIpnOJ",
 ]
 
 channels_3 = [
@@ -285,6 +297,10 @@ channels_3 = [
     "CentoXCento",
     "Venus",
     "XXL",
+    "True-Amateurs",
+    "SexPrive",
+    "BlueHustler",
+    "HotPleasure",
 ]
 
 runServers()  # Runs the function to start the servers!
