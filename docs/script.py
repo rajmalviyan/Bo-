@@ -12,7 +12,7 @@ def create_nojekyll():
         pass
 
 def runServers():
-    create_nojekyll()  # Ensure .nojekyll exists
+    # create_nojekyll()  # Ensure .nojekyll exists
 
     # Create a single combined playlist file with EPG URL
     with open("docs/combined_playlist.m3u", "w", encoding='utf-8-sig') as file:
@@ -21,7 +21,7 @@ def runServers():
     # Process each server and append to the combined playlist
     for i in range(len(lis)):
         print(f"{i+1}.{lis[i]}")
-        server1(i + 1, lis[i])
+        server1(i, lis[i])
 
     for i in range(len(hashCode)):
         print(f"{i+1}.{channels[i]}")
@@ -157,6 +157,12 @@ hashCode = [
     "V2D4lPbasF",
     "t6VXUhiBYF",
     "JiA1DWNWJc",
+    "B23u2g9du7",
+    "RMdBtgPkAZ",
+    "D9QT1n9SFy",
+    "qzVwPIpnOJ",
+    "JGjj7Rdr6i",
+    "HdcCGPssEy",
 ]
 
 channels = [
@@ -189,6 +195,11 @@ channels = [
     "CentoXCento",
     "Barely-Legal-TV",
     "Venus",
+    "VividTV",
+    "True-Amateurs",
+    "SexPrive",
+    "BlueHustler",
+    "HotPleasure",
 ]
 
 hashcode_3 = [
