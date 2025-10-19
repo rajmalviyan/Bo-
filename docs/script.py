@@ -160,9 +160,8 @@ hashCode = [
     "B23u2g9du7",
     "RMdBtgPkAZ",
     "D9QT1n9SFy",
-    "qzVwPIpnOJ",
-    "JGjj7Rdr6i",
     "HdcCGPssEy",
+    "qzVwPIpnOJ",
 ]
 
 channels = [
