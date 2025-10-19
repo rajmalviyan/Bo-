@@ -189,6 +189,8 @@ channels = [
     "CentoXCento",
     "Barely-Legal-TV",
     "Venus",
+    "FAKETAXI",
+    "True-Amateurs",
 ]
 
 hashcode_3 = [
