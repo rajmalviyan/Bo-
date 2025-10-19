@@ -34,7 +34,7 @@ def server1(hash, name):
         token = data["fileUrl"]
         stream_url = f"https://moonlight.wideiptv.top/{name}/index.fmp4.m3u8?token={token}"
         with open("docs/combined_playlist.m3u", "a", encoding='utf-8-sig') as file:
-            file.write(f'#EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="{name}" tvg-logo="{CHANNEL_LOGO}" group-title="Adult 2",{name}\n')
+            file.write(f'#EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="{name}" tvg-logo="{CHANNEL_LOGO}" group-title="Adult 1",{name}\n')
             file.write(f"{stream_url}\n")
     except Exception as e:
         print(f"Error processing {name}: {str(e)}")
@@ -52,7 +52,7 @@ def server2(hash, name):
         token = data["fileUrl"]
         stream_url = f"https://moonlight.wideiptv.top/{name}/index.fmp4.m3u8?token={token}"
         with open("docs/combined_playlist.m3u", "a", encoding='utf-8-sig') as file:
-            file.write(f'#EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="{name}" tvg-logo="{CHANNEL_LOGO}" group-title="Adult 3",{name}\n')
+            file.write(f'#EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="{name}" tvg-logo="{CHANNEL_LOGO}" group-title="Adult 2",{name}\n')
             file.write(f"{stream_url}\n")
     except Exception as e:
         print(f"Error processing {name}: {str(e)}")
