@@ -157,7 +157,6 @@ hashCode = [
     "V2D4lPbasF",
     "t6VXUhiBYF",
     "JiA1DWNWJc",
-    "B23u2g9du7",
     "RMdBtgPkAZ",
     "D9QT1n9SFy",
     "HdcCGPssEy",
@@ -194,10 +193,9 @@ channels = [
     "CentoXCento",
     "Barely-Legal-TV",
     "Venus",
-    "VividTV",
     "True-Amateurs",
     "SexPrive",
-    "BlueHustler",
+    "HustlerHD",
     "HotPleasure",
 ]
 
