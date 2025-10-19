@@ -12,7 +12,7 @@ def create_nojekyll():
         pass
 
 def runServers():
-    # create_nojekyll()  # Ensure .nojekyll exists
+    create_nojekyll()  # Ensure .nojekyll exists
 
     # Create a single combined playlist file with EPG URL
     with open("docs/combined_playlist.m3u", "w", encoding='utf-8-sig') as file:
