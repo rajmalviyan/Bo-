@@ -6,22 +6,14 @@ import requests
 # Add the channel logo constant
 CHANNEL_LOGO = "https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true"
 
-def create_nojekyll():
-    # Create a .nojekyll file to prevent GitHub from processing our files
-    with open("docs/.nojekyll", "w") as f:
-        pass
-
 def runServers():
-    create_nojekyll()  # Ensure .nojekyll exists
+    # create_nojekyll()  # Ensure .nojekyll exists
 
     # Create a single combined playlist file with EPG URL
     with open("docs/combined_playlist.m3u", "w", encoding='utf-8-sig') as file:
         file.write("#EXTM3U x-tvg-url=\"https://epgshare01.online/epgshare01/epg_ripper_DUMMY_CHANNELS.xml.gz\"\n")
 
     # Process each server and append to the combined playlist
-    for i in range(len(lis)):
-        print(f"{i+1}.{lis[i]}")
-        server1(i + 1, lis[i])
 
     for i in range(len(hashCode)):
         print(f"{i+1}.{channels[i]}")
@@ -86,45 +78,6 @@ def server3(hash, name):
             file.write(f"{stream_url}\n")
     except Exception as e:
         print(f"Error processing {name}: {str(e)}")
-
-# Your channel lists remain the same
-lis = [
-    "brazzerstv",
-    "hustlerhd",
-    "hustlertv",
-    "penthouse",
-    "redlight",
-    "penthousepassion",
-    "vivid",
-    "dorcel",
-    "superone",
-    "oxax",
-    "passie",
-    "eroxxx",
-    "playboy",
-    "pinko",
-    "extasy",
-    "penthousereality",
-    "kinoxxx",
-    "pinkerotic",
-    "pinkerotic7",
-    "pinkerotic8",
-    "evilangel",
-    "private",
-    "beate",
-    "meiden",
-    "centoxcento",
-    "barelylegal",
-    "venus",
-    "freextv",
-    "erox",
-    "passion",
-    "satisfaction",
-    "jasmin",
-    "fap",
-    "olala",
-    "miamitv",
-]
 
 # for Server 2
 hashCode = [
