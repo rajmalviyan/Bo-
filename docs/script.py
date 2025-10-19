@@ -18,10 +18,11 @@ def runServers():
     with open("docs/combined_playlist.m3u", "w", encoding='utf-8-sig') as file:
         file.write("#EXTM3U x-tvg-url=\"https://epgshare01.online/epgshare01/epg_ripper_DUMMY_CHANNELS.xml.gz\"\n")
 
-    # Process each server and append to the combined playlist
+    ''' # Process each server and append to the combined playlist
     # for i in range(len(lis)):
     #    print(f"{i+1}.{lis[i]}")
     #    server1(i, lis[i])
+    '''
 
     for i in range(len(hashCode)):
         print(f"{i+1}.{channels[i]}")
