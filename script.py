@@ -7,7 +7,6 @@ import requests
 CHANNEL_LOGO = "https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true"
 
 def runServers():
-    # create_nojekyll()  # Ensure .nojekyll exists
 
     # Create a single combined playlist file with EPG URL
     with open("docs/combined_playlist.m3u", "w", encoding='utf-8-sig') as file:
@@ -17,35 +16,14 @@ def runServers():
 
     for i in range(len(hashCode)):
         print(f"{i+1}.{channels[i]}")
-        server2(hashCode[i], channels[i])
+        server1(hashCode[i], channels[i])
 
-    for i in range(len(hashcode_3)):
-        print(f"{i+1}.{channels_3[i]}")
-        server3(hashcode_3[i], channels_3[i])
+    for i in range(len(hashcode_2)):
+        print(f"{i+1}.{channels_2[i]}")
+        server2(hashcode_2[i], channels_2[i])
 
-def server1(i, name):
+def server1(hash, name):
     print("Running Server 1")
-    url = f"https://adult-tv-channels.com/tv/{name}.php"
-    headers = {
-        "User-Agent": "Mozilla/5.0",
-        "Referer": "https://adult-tv-channels.com",
-        "X-Requested-With": "XMLHttpRequest",
-    }
-
-    response = requests.get(url, headers=headers, verify=certifi.where())
-
-    # Use regex to extract the source URL
-    match = re.search(r'file:\s*"([^"]+playlist\.m3u8[^"]*)"', response.text)
-    if match:
-        stream_url = match.group(1)
-        with open("docs/combined_playlist.m3u", "a", encoding='utf-8-sig') as file:
-            file.write(f'#EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="{name}" tvg-logo="{CHANNEL_LOGO}" group-title="Adult 1",{name}\n')
-            file.write(f"{stream_url}\n")
-    else:
-        print("😡 No URL found.")
-
-def server2(hash, name):
-    print("Running Server 2")
     try:
         res = requests.post(
             f"https://adult-tv-channels.click/C1Ep6maUdBIeKDQypo7a/{hash}",
@@ -61,8 +39,8 @@ def server2(hash, name):
     except Exception as e:
         print(f"Error processing {name}: {str(e)}")
 
-def server3(hash, name):
-    print("Running Server 3")
+def server2(hash, name):
+    print("Running Server 2")
     try:
         url = f"https://fuckflix.click/8RLxsc2AW1q8pvyvjqIQ"
         res = requests.post(
@@ -79,7 +57,7 @@ def server3(hash, name):
     except Exception as e:
         print(f"Error processing {name}: {str(e)}")
 
-# for Server 2
+# for Server 1
 hashCode = [
     "Sdw0p0xE3E",
     "yoni9C8jfd",
@@ -152,7 +130,9 @@ channels = [
     "HotPleasure",
 ]
 
-hashcode_3 = [
+# for Server 1
+
+hashcode_2 = [
     "5LvPjA7oms",
     "CudzGm9xm6",
     "T3PIyktDDU",
@@ -220,7 +200,7 @@ hashcode_3 = [
     "uFZFNiL2hb",
 ]
 
-channels_3 = [
+channels_2 = [
     "BrazzersTVEU",
     "Tiny4k1",
     "Tiny4k2",
