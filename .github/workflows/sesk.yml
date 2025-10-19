@@ -1,4 +1,4 @@
-name: Daily Playlist Generator
+name: Playlist Generator
 
 on:
   schedule:
