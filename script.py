@@ -252,7 +252,7 @@ channels_3 = [
     "XXL",
     "True-Amateurs",
     "SexPrive",
-    "BlueHustler",
+    "HustlerHD",
     "HotPleasure",
 ]
 
