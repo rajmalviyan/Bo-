@@ -189,8 +189,6 @@ channels = [
     "CentoXCento",
     "Barely-Legal-TV",
     "Venus",
-    "FAKETAXI",
-    "True-Amateurs",
 ]
 
 hashcode_3 = [
@@ -287,6 +285,8 @@ channels_3 = [
     "CentoXCento",
     "Venus",
     "XXL",
+    "FAKETAXI",
+    "True-Amateurs",
 ]
 
 runServers()  # Runs the function to start the servers!
