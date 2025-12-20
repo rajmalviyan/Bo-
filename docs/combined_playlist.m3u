@@ -9,6 +9,8 @@ https://moonlight.wideiptv.top/LeoGoldTV/index.fmp4.m3u8?token=None
 https://moonlight.wideiptv.top/EvilAngel/index.fmp4.m3u8?token=None
 #EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="VIXEN" tvg-logo="https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true" group-title="Adult 1",VIXEN
 https://moonlight.wideiptv.top/VIXEN/index.fmp4.m3u8?token=None
+#EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="Extasy4K" tvg-logo="https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true" group-title="Adult 1",Extasy4K
+https://moonlight.wideiptv.top/Extasy4K/index.fmp4.m3u8?token=None
 #EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="PinkoClubTV" tvg-logo="https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true" group-title="Adult 1",PinkoClubTV
 https://moonlight.wideiptv.top/PinkoClubTV/index.fmp4.m3u8?token=None
 #EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="BrazzersTVEU" tvg-logo="https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true" group-title="Adult 1",BrazzersTVEU
@@ -17,6 +19,8 @@ https://moonlight.wideiptv.top/BrazzersTVEU/index.fmp4.m3u8?token=None
 https://moonlight.wideiptv.top/HustlerHD/index.fmp4.m3u8?token=None
 #EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="RedlightHD" tvg-logo="https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true" group-title="Adult 1",RedlightHD
 https://moonlight.wideiptv.top/RedlightHD/index.fmp4.m3u8?token=None
+#EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="SecretCircleTV" tvg-logo="https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true" group-title="Adult 1",SecretCircleTV
+https://moonlight.wideiptv.top/SecretCircleTV/index.fmp4.m3u8?token=None
 #EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="PenthouseGold" tvg-logo="https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true" group-title="Adult 1",PenthouseGold
 https://moonlight.wideiptv.top/PenthouseGold/index.fmp4.m3u8?token=None
 #EXTINF:-1 tvg-id="Adult.Programming.Dummy.us" tvg-name="Television-X" tvg-logo="https://github.com/BuddyChewChew/gen-playlist/blob/main/docs/ch.png?raw=true" group-title="Adult 1",Television-X
